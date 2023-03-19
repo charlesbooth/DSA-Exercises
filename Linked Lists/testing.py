@@ -4,6 +4,7 @@ class Node:
         self.next = None
    
 class LinkedList:
+    #region - top
     def __init__(self, value):
         new_node = Node(value)
         self.head = new_node
@@ -47,10 +48,53 @@ class LinkedList:
         return True
     
     def insert_item(self, index, value):
-        temp = self.index_item(index)
-        
+        if not 0 <= index <= self.length:
+            return False
+        if index == 0:
+            return self.prepend_item(value)
+        if index == self.length:
+            return self.append_item(value)
+        temp = self.index_item(index - 1)
+        new_node = Node(value)
+        new_node.next = temp.next
+        temp.next = new_node   
+        self.length += 1
+        return True
+    
+    def remove_item(self, index):
+        if not 0 <= index <= self.length:
+            return None
+        if index == 0:
+            return self.pop_left()
+        if index == self.length - 1:
+            return self.pop_right()
+        prev = self.index_item(index - 1)
+        temp = prev.next
+        prev.next = temp.next
+        temp.next = None
+        self.length -= 1
+        return temp
+    #endregion
+    def reverse(self):
+        temp = self.head
+        self.head = self.tail
+        self.tail = temp
+        after = temp.next
+        before = None
+        for _ in range(self.length):
+            after = temp.next
+            temp.next = before
+            before = temp
+            temp = after
 
-    def pop_standard(self):
+
+            
+
+
+
+
+    #region - bottom
+    def pop_right(self):
         if self.length == 0:
             return None
         temp = self.head
@@ -90,16 +134,12 @@ class LinkedList:
             print(temp.value)
             temp = temp.next
         print('\n')
+#endregion
 
 
 items = [
             'big chungus',
-            41,
-            42.5,
-            'erik peterson',
-            'yo mama',
-            40.8,
-            7
+            'among us'
         ]
 
 def make_list(list_items):
@@ -108,25 +148,31 @@ def make_list(list_items):
         new_list.prepend_item(i)
     return new_list
 
+#make list
 my_linked_list = make_list(items)
 
+def print_values(list_object=my_linked_list):
+    print('head: ', list_object.head.value)
+    print('tail: ', list_object.tail.value)
+    print('length: ', list_object.length)
+    print('\n')
+
+#etc.
+
 my_linked_list.print_list()
+print_values()
 
-print('head: ', my_linked_list.head.value)
-print('tail: ', my_linked_list.tail.value)
-print('length: ', my_linked_list.length)
-print('\n')
-
-my_linked_list.set_value(3, 'ahahahahahha')
+#region - test inserts, pops, etc.
+# #print(my_linked_list.insert_item(3, 'hello there!'), '<-----')
+# item = my_linked_list.remove_item(2)
+# print(item.value, '<-----')
+# #my_linked_list.pop_left()
+# print('\n')
+#endregion
+my_linked_list.reverse()
 
 my_linked_list.print_list()
-
-print('head: ', my_linked_list.head.value)
-print('tail: ', my_linked_list.tail.value)
-print('length: ', my_linked_list.length)
-print('\n')
-
-print('indexed item: ', my_linked_list.index_item(3))
+print_values()
 
 
 
@@ -147,6 +193,7 @@ print('indexed item: ', my_linked_list.index_item(3))
 
 
 
+#region - unused code
 #my_linked_list.prepend_item('big mama')
 
 # my_linked_list.print_list()
@@ -167,9 +214,9 @@ print('indexed item: ', my_linked_list.index_item(3))
 # # print('before:')
 # # my_linked_list.print_list()
 
-# # print(my_linked_list.pop_standard())
-# # print(my_linked_list.pop_standard())
-# # print(my_linked_list.pop_standard())
+# # print(my_linked_list.pop_right())
+# # print(my_linked_list.pop_right())
+# # print(my_linked_list.pop_right())
 
 # #print(f'value: {popped.value}', '\n')
 
@@ -178,6 +225,6 @@ print('indexed item: ', my_linked_list.index_item(3))
 # print('head: ', my_linked_list.head)
 # print('tail: ', my_linked_list.tail)
 # print('length: ', my_linked_list.length)
-
+#endregion
 
                                                                                                                     
