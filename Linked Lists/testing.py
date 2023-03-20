@@ -87,12 +87,6 @@ class LinkedList:
             before = temp
             temp = after
 
-
-            
-
-
-
-
     #region - bottom
     def pop_right(self):
         if self.length == 0:
