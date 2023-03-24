@@ -1,3 +1,7 @@
+import sys
+sys.path.append('.')
+from functions.my_functions import value
+
 class Node:
     def __init__(self, value):
         self.value = value
@@ -55,8 +59,8 @@ my_tree.insert(6)
 my_tree.insert(1)
 my_tree.insert(4)
 
-print(my_tree.root.value)
-print(my_tree.root.left.value)
-print(my_tree.root.right.value)
+print(value(my_tree.root))
+print(value(my_tree.root.left))
+print(value(my_tree.root.right))
 
 my_tree.contains(4)
