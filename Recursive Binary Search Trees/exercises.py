@@ -1,3 +1,5 @@
+from random import sample
+
 import sys
 sys.path.append('.')
 from functions.my_functions import value
@@ -86,12 +88,39 @@ class BinarySearchTree:
 
     #endregion
 
-
     #region - delete_node
-
+    
+    def min_value(self, current_node):
+        while current_node.left is not None:
+            current_node = current_node.left
+        return current_node.value
+    
     def __delete_node(self, current_node, value):
+        if current_node == None:
+            return None
         if current_node.value > value:
-            current_node.left = self.__delete_node(current_node.left, value)
+            current_node.left = \
+                self.__delete_node(current_node.left, value)
+        elif current_node.value < value:
+            current_node.right = \
+                self.__delete_node(current_node.right, value)
+        else:
+            #left and right are empty
+            if current_node.left is None and current_node.right is None:
+                return None
+            #left not empty, right is
+            elif current_node.right is None:
+                current_node = current_node.left
+            #left empty, right isn't
+            elif current_node.left is None:
+                current_node = current_node.right
+            #left and right node are not empty
+            else:
+                sub_tree_min = self.min_value(current_node.right)
+                current_node.value = sub_tree_min
+                current_node.right = \
+                    self.__delete_node(current_node.right, sub_tree_min)
+        return current_node
 
     def delete_node(self, value):
         self.__delete_node(self.root, value)
@@ -99,18 +128,33 @@ class BinarySearchTree:
     #endregion
 
 
-
-
-
 my_tree = BinarySearchTree()
 
-my_tree.insert(47)
-my_tree.insert(18)
-my_tree.r_insert(19)
 
-print(value(my_tree.root))
-print(value(my_tree.root.left))
-print(value(my_tree.root.right))
-print(value(my_tree.root.left.right))
+def print_it():
+    print\
+        ('             ', value(my_tree.root))
+    print\
+        ('    ', value(my_tree.root.left), '                  ', value(my_tree.root.right))
+    print\
+        (value(my_tree.root.left.left), '        ', value(my_tree.root.left.right))
+    print\
+        ('      ', value(my_tree.root.left.right.left), '     ', value(my_tree.root.left.right.right))
+    print\
+        ('   ', value(my_tree.root.left.right.left.left), '  ', value(my_tree.root.left.right.left.right))
+    
+for n in [42, 92, 91, 20, 17, 99, 84, 87, 61, 59, 31, 37, 73, 76, 64, 30, 29]:
+    my_tree.r_insert(n)
 
-#print(my_tree.r_contains(10))
+print_it()
+
+my_tree.delete_node(20)
+print('\n')
+
+print_it()
+
+print('\n')
+
+print(my_tree.min_value(my_tree.root))
+
+

@@ -2,7 +2,7 @@
 def value(object, value='value'):
     if hasattr(object, value):
         return object.value
-    return object
+    return None
 
 
 def main():
